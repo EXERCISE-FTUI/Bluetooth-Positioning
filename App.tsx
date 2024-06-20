@@ -3,6 +3,7 @@ import { View, Text, FlatList, StyleSheet } from 'react-native';
 import useBLE from './hooks/useBLE';
 import { Device as BLEDevice } from 'react-native-ble-plx';
 import { BluetoothDevice as ClassicDevice } from 'react-native-bluetooth-classic';
+import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
 const App = () => {
   const {
@@ -13,19 +14,18 @@ const App = () => {
   } = useBLE();
   const [floor, setFloor] = useState(0);
 
-  const deviceNames = [['1A', '1B'],['2A', '2B']]
-
+  const deviceNames = [['1A', '1B'],['2A', '2B']];
 
   const floorPrediction = () => {
-    var rssiTotal: number[] = [0, 0];
+    var rssiTotal: number[] = new Array(deviceNames.length).fill(0);
     for (let i = 0; i < allDevices.length; i++) {
       for (let j = 0; j < deviceNames.length; j++) {
         if (allDevices[i].name === deviceNames[j][0] || allDevices[i].name === deviceNames[j][1]) {
-          rssiTotal[j] -= 1/allDevices[i].rssi;
+          rssiTotal[j] -= 1 / Number(allDevices[i].rssi);
         }
       }
     }
-
+    console.log(rssiTotal);
     setFloor(rssiTotal.indexOf(Math.max(...rssiTotal)) + 1);
   };
 
@@ -35,14 +35,13 @@ const App = () => {
       if (hasPermissions) {
         scanForPeripherals();
         scanForClassicDevices();
+        floorPrediction();
       } else {
         console.log('Permissions not granted');
       }
     };
-
     startBLE();
-    floorPrediction();
-  }, []);
+  }, [allDevices]);
 
   const renderItem = ({ item }: { item: BLEDevice | ClassicDevice }) => (
     <View style={styles.deviceContainer}>
