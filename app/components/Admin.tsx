@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
-import useBLE from './hooks/useBLE';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import useBLE from '../../hooks/useBLE';
 import { Device as BLEDevice } from 'react-native-ble-plx';
 import { BluetoothDevice as ClassicDevice } from 'react-native-bluetooth-classic';
-import { Float } from 'react-native/Libraries/Types/CodegenTypes';
 
-const App = () => {
+const Admin = () => {
   const {
     scanForPeripherals,
     scanForClassicDevices,
@@ -14,7 +14,7 @@ const App = () => {
   } = useBLE();
   const [floor, setFloor] = useState(0);
 
-  const deviceNames = [['1A', '1B'],['2A', '2B']];
+  const deviceNames = [['1A', '1B'], ['2A', '2B']];
 
   const floorPrediction = () => {
     var rssiTotal: number[] = new Array(deviceNames.length).fill(0);
@@ -52,14 +52,14 @@ const App = () => {
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Floor prediction : {floor} </Text>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.title}>Floor prediction: {floor}</Text>
       <FlatList
         data={allDevices}
         keyExtractor={(item) => item.id}
         renderItem={renderItem}
       />
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -67,28 +67,28 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 16,
-    backgroundColor: '#f5f5f5'
+    backgroundColor: '#f7fafc' 
   },
   title: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: 'bold', // font-bold
     textAlign: 'center',
-    marginBottom: 16
+    marginBottom: 16, // mb-4
   },
   deviceContainer: {
-    backgroundColor: '#fff',
-    padding: 16,
-    marginVertical: 8,
-    borderRadius: 8,
-    shadowColor: '#000',
+    backgroundColor: '#ffffff', // bg-white
+    padding: 16, // p-4
+    marginVertical: 8, // my-2
+    borderRadius: 8, // rounded-lg
+    shadowColor: '#000000', // shadow
     shadowOpacity: 0.1,
     shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 }
+    shadowOffset: { width: 0, height: 2 },
   },
   deviceText: {
-    fontSize: 16,
-    marginBottom: 4
-  }
+    fontSize: 18, // text-lg
+    marginBottom: 4, // mb-1
+  },
 });
 
-export default App;
+export default Admin;
