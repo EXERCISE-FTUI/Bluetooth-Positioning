@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, Button, SafeAreaView, StyleSheet } from 'react-native';
 
+
 const SelectionPage = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>

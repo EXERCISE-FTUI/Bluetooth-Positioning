@@ -64,31 +64,31 @@ const Admin = () => {
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 16,
-    backgroundColor: '#f7fafc' 
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold', // font-bold
-    textAlign: 'center',
-    marginBottom: 16, // mb-4
-  },
-  deviceContainer: {
-    backgroundColor: '#ffffff', // bg-white
-    padding: 16, // p-4
-    marginVertical: 8, // my-2
-    borderRadius: 8, // rounded-lg
-    shadowColor: '#000000', // shadow
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    shadowOffset: { width: 0, height: 2 },
-  },
-  deviceText: {
-    fontSize: 18, // text-lg
-    marginBottom: 4, // mb-1
-  },
+    container: {
+        flex: 1,
+        padding: 16,
+        backgroundColor: '#f7fafc' 
+    },
+    title: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        textAlign: 'center',
+        marginBottom: 16,
+    },
+    deviceContainer: {
+        backgroundColor: '#ffffff',
+        padding: 16,
+        marginVertical: 8,
+        borderRadius: 8,
+        shadowColor: '#000000',
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        shadowOffset: { width: 0, height: 2 },
+    },
+    deviceText: {
+        fontSize: 18,
+        marginBottom: 4,
+    },
 });
 
 export default Admin;
