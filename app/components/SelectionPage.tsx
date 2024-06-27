@@ -1,37 +1,48 @@
-import React from 'react';
-import { View, Text, Button, SafeAreaView, StyleSheet } from 'react-native';
+import React from "react";
+import {
+  View,
+  Text,
+  SafeAreaView,  
+} from "react-native";
 
-const SelectionPage = ({ navigation }) => {
+import CustomButton from "./CustomButton";
+
+const SelectionPage = ({ navigation }: {navigation: any}) => {
   return (
-    <SafeAreaView style={styles.container}>
-      <Text style={styles.title}>Select Role</Text>
-      <View style={styles.buttonContainer}>
-        <Button title="Admin" onPress={() => navigation.navigate('Admin')} />
-      </View>
-      <View style={styles.buttonContainer}>
-        <Button title="User" onPress={() => navigation.navigate('User')} />
-      </View>
-    </SafeAreaView>
+    <>
+      <SafeAreaView className="h-full bg-blackgray flex justify-center items-center">
+        <View className="flex-col justify-center items-center">
+            <Text className="text-center text-white text-2xl font-bold mb-4">
+              Welcome, to Bluetooth-Positioning
+            </Text>
+          <View className="">
+            <View>
+              <Text className="text-white text-2xl font-bold text-center my-2">
+                Login as
+              </Text>
+            </View>
+            <CustomButton
+              containerStyles="bg-dodgerblue rounded-2xl h-4 my-2 min-w-[40%]"
+              textStyles="text-black text-lg text-center"
+              title="User"
+              handlePress={() => navigation.navigate("User")}
+            />
+            <View>
+              <Text className="text-white text-2xl font-bold text-center my-2">
+                Or
+              </Text>
+            </View>
+            <CustomButton
+              containerStyles="bg-dodgerblue rounded-2xl h-4 my-2 min-w-[40%]"
+              textStyles="text-black text-lg"
+              title="Admin"
+              handlePress={() => navigation.navigate("Admin")}
+            />
+          </View>
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
-    backgroundColor: '#f7fafc', // bg-gray-100
-  },
-  title: {
-    fontSize: 24, // text-2xl
-    fontWeight: 'bold', // font-bold
-    textAlign: 'center',
-    marginBottom: 16, // mb-4
-  },
-  buttonContainer: {
-    marginBottom: 8, // mb-2
-  },
-});
 
 export default SelectionPage;

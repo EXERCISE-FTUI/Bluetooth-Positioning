@@ -12,9 +12,21 @@ const App = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SelectionPage">
-        <Stack.Screen name="SelectionPage" component={SelectionPage} />
-        <Stack.Screen name="Admin" component={Admin} />
-        <Stack.Screen name="User" component={User} />
+        <Stack.Screen
+          name="SelectionPage"
+          component={SelectionPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Admin"
+          component={Admin}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="User"
+          component={User}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
