@@ -1,9 +1,11 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import SelectionPage from './components/SelectionPage';
-import Admin from './components/Admin';
-import User from './components/User';
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+
+import SelectionPage from "./components/SelectionPage";
+import Admin from "./components/Admin";
+import User from "./components/User";
+
 import "../global.css";
 
 const Stack = createStackNavigator();
@@ -11,10 +13,30 @@ const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="SelectionPage">
-        <Stack.Screen name="SelectionPage" component={SelectionPage} />
-        <Stack.Screen name="Admin" component={Admin} />
-        <Stack.Screen name="User" component={User} />
+      <Stack.Navigator initialRouteName="SelectRole">
+        <Stack.Screen
+          name="SelectRole"
+          component={SelectionPage}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Admin"
+          component={Admin}
+          options={{
+            headerStyle: { backgroundColor: "#2A2D32" },
+            headerTitleStyle: { color: "#FFFFFF" },
+            headerTintColor: "#FFFFFF",
+          }}
+        />
+        <Stack.Screen
+          name="User"
+          component={User}
+          options={{
+            headerStyle: { backgroundColor: "#2A2D32" },
+            headerTitleStyle: { color: "#FFFFFF" },
+            headerTintColor: "#FFFFFF",
+          }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
