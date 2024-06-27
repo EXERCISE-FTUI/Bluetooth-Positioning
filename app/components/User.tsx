@@ -6,6 +6,8 @@ import useBLE from "../../hooks/useBLE";
 import Geolocation from "react-native-geolocation-service";
 import map2 from "./../../assets/map-pusgiwa.png";
 import map1 from "./../../assets/map-pusgiwa.png";
+import * as Location from "expo-location";
+import {get} from "react-native/Libraries/TurboModule/TurboModuleRegistry";
 
 const User = () => {
 	const {
@@ -38,31 +40,59 @@ const User = () => {
 	};
 
 	const [location, setLocation] = useState({latitude: 0, longitude: 0});
-	const [watchId, setWatchId] = useState(0);
 
-	const getLocation = () => {
+	const getLocation = async () => {
 		console.log("getting location");
-		const id = Geolocation.watchPosition(
-			(position) => {
-				setLocation({
-					latitude: position.coords.latitude,
-					longitude: position.coords.longitude,
-				});
-				console.log("Location: ", position);
-			},
-			(error) => {
-				console.log(error.code, error.message);
-			},
+
+		const id = await Location.watchPositionAsync(
 			{
-				enableHighAccuracy: true,
-				interval: 1000,
-				distanceFilter: 2,
-				fastestInterval: 1000,
+				accuracy: Location.Accuracy.High,
+				timeInterval: 3000,
+				distanceInterval: 0,
+			},
+			(position) => {
+				const newLocation = {
+					latitude:
+						location.latitude == 0
+							? position.coords.latitude
+							: (position.coords.latitude + location.latitude) /
+							  2,
+					longitude:
+						location.longitude == 0
+							? position.coords.longitude
+							: (position.coords.longitude + location.longitude) /
+							  2,
+				};
+
+				setLocation(newLocation);
+				console.log("Location: ", position);
+				2;
 			}
 		);
 
 		console.log(id);
-		setWatchId(id);
+
+		// const id = Geolocation.watchPosition(
+		// 	(position) => {
+		// 		setLocation({
+		// 			latitude: position.coords.latitude,
+		// 			longitude: position.coords.longitude,
+		// 		});
+		// 		console.log("Location: ", position);
+		// 	},
+		// 	(error) => {
+		// 		console.log(error.code, error.message);
+		// 	},
+		// 	{
+		// 		enableHighAccuracy: true,
+		// 		interval: 1000,
+		// 		distanceFilter: 2,
+		// 		fastestInterval: 1000,
+		// 	}
+		// );
+
+		// console.log(id);
+		// setWatchId(id);
 	};
 
 	useEffect(() => {
@@ -81,19 +111,31 @@ const User = () => {
 
 	useEffect(() => {
 		const getPermissions = async () => {
-			const hasPermissions = await requestPermissions();
-			if (hasPermissions) {
-				getLocation();
-			} else {
-				console.log("Permissions not granted");
+			const {status} = await Location.requestForegroundPermissionsAsync();
+			if (status !== "granted") {
+				console.log("Permission to access location was denied");
+				return;
 			}
+
+			getLocation();
 		};
 
 		getPermissions();
 
-		return () => {
-			Geolocation.clearWatch(watchId);
-		};
+		// const getPermissions = async () => {
+		// 	const hasPermissions = await requestPermissions();
+		// 	if (hasPermissions) {
+		// 		getLocation();
+		// 	} else {
+		// 		console.log("Permissions not granted");
+		// 	}
+		// };
+
+		// getPermissions();
+
+		// return () => {
+		// 	Geolocation.clearWatch(watchId);
+		// };
 	}, []);
 
 	const getPositionInBuilding = (latitude: number, longitude: number) => {
