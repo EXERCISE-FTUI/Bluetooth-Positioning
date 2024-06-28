@@ -12,7 +12,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.kamalmakarim.BluetoothPositioning"
     },
     "android": {
       "adaptiveIcon": {
@@ -22,7 +23,10 @@
       "permissions": [
         "android.permission.BLUETOOTH",
         "android.permission.BLUETOOTH_ADMIN",
-        "android.permission.BLUETOOTH_CONNECT"
+        "android.permission.BLUETOOTH_CONNECT",
+        "android.permission.BLUETOOTH_SCAN",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.ACCESS_COARSE_LOCATION"
       ],
       "package": "com.kamalmakarim.BluetoothPositioning"
     },
@@ -35,7 +39,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "e46496d6-3e6c-4327-817c-00188da8b679"
+        "projectId": "49822e95-7487-4db6-9bff-4847641d6ff6"
       }
     }
   }
