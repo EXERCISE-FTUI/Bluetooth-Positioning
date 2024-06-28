@@ -1,147 +1,93 @@
-import { useMemo, useState, useEffect } from "react";
-import { PermissionsAndroid, Platform } from "react-native";
+// useBLE.js
+import { useEffect, useMemo, useState } from "react";
 import {
-  BleError,
   BleManager,
   Device as BLEDevice,
+  State,
+  ScanMode,
 } from "react-native-ble-plx";
-import BluetoothClassic, { BluetoothDevice as ClassicDevice } from 'react-native-bluetooth-classic';
-import * as ExpoDevice from "expo-device";
+import { deviceNames } from "../constants";
 
-interface BluetoothLowEnergyApi {
-  requestPermissions(): Promise<boolean>;
-  scanForPeripherals(): void;
-  scanForClassicDevices(): Promise<void>;
-  connectToDevice: (deviceId: BLEDevice) => Promise<void>;
-  disconnectFromDevice: () => void;
-  connectedDevice: BLEDevice | null;
-  allDevices: any[];
+interface DeviceWithTimestamp extends BLEDevice {
+  lastSeen: number;
 }
 
-function useBLE(): BluetoothLowEnergyApi {
+function useBLE() {
   const bleManager = useMemo(() => new BleManager(), []);
-  const [allDevices, setAllDevices] = useState<(BLEDevice | ClassicDevice)[]>([]);
-  const [connectedDevice, setConnectedDevice] = useState<BLEDevice | null>(null);
+  const [allDevices, setAllDevices] = useState<DeviceWithTimestamp[]>([]);
 
-  useEffect(() => {
+  const SCAN_INTERVAL = 5000; // Cleanup interval in milliseconds
+  const DEVICE_TIMEOUT = 500; // Device timeout in milliseconds
+
+  const scanForPeripherals = async () => {
+    const state = await bleManager.state();
+    if (state !== State.PoweredOn) return;
+
+    bleManager.startDeviceScan(
+      null,
+      {
+        allowDuplicates: true,
+        scanMode: ScanMode.Balanced,
+      },
+      (error, device) => {
+        if (error) {
+          console.log("Scan Error:", JSON.stringify(error));
+          return;
+        }
+
+        if (device && deviceNames.includes(device.name as string)) {
+          const currentTime = Date.now();
+
+          setAllDevices((prevDevices: any) => {
+            const updatedDevices = prevDevices.map((d: any) =>
+              d.id === device.id ? { ...device, lastSeen: currentTime } : d
+            );
+
+            // Add the device if it doesn't already exist
+            if (!updatedDevices.some((d: any) => d.id === device.id)) {
+              updatedDevices.push({ ...device, lastSeen: currentTime });
+            }
+
+            return updatedDevices;
+          });
+        }
+      }
+    );
+
+    // Cleanup function to stop scanning
     return () => {
       bleManager.stopDeviceScan();
     };
-  }, [bleManager]);
-
-  const requestAndroid31Permissions = async () => {
-    const bluetoothScanPermission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_SCAN,
-      {
-        title: "Location Permission",
-        message: "Bluetooth Low Energy requires Location",
-        buttonPositive: "OK",
-      }
-    );
-    const bluetoothConnectPermission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.BLUETOOTH_CONNECT,
-      {
-        title: "Location Permission",
-        message: "Bluetooth Low Energy requires Location",
-        buttonPositive: "OK",
-      }
-    );
-    const fineLocationPermission = await PermissionsAndroid.request(
-      PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-      {
-        title: "Location Permission",
-        message: "Bluetooth Low Energy requires Location",
-        buttonPositive: "OK",
-      }
-    );
-
-    return (
-      bluetoothScanPermission === "granted" &&
-      bluetoothConnectPermission === "granted" &&
-      fineLocationPermission === "granted"
-    );
   };
 
-  const requestPermissions = async () => {
-    if (Platform.OS === "android") {
-      if ((ExpoDevice.platformApiLevel ?? -1) < 31) {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-          {
-            title: "Location Permission",
-            message: "Bluetooth Low Energy requires Location",
-            buttonPositive: "OK",
-          }
+  useEffect(() => {
+    const cleanup = async () => {
+      const stopScan = await scanForPeripherals();
+
+      // Periodic cleanup of outdated devices
+      const intervalId = setInterval(() => {
+        setAllDevices((prevDevices) =>
+          prevDevices.filter(
+            (device) => Date.now() - device.lastSeen < DEVICE_TIMEOUT
+          )
         );
-        return granted === PermissionsAndroid.RESULTS.GRANTED;
-      } else {
-        const isAndroid31PermissionsGranted = await requestAndroid31Permissions();
-        return isAndroid31PermissionsGranted;
-      }
-    } else {
-      return true;
-    }
-  };
+      }, SCAN_INTERVAL);
 
-  const isDuplicateDevice = (devices: (BLEDevice | ClassicDevice)[], nextDevice: BLEDevice | ClassicDevice) =>
-    devices.findIndex((device) => nextDevice.id === device.id) > -1;
+      return () => {
+        stopScan?.();
+        clearInterval(intervalId);
+      };
+    };
 
-  const scanForPeripherals = () => {
-    bleManager.startDeviceScan(null, null, (error, device) => {
-      if (error) {
-        console.log('Scan Error:', error);
-        return;
-      }
-      if (device) {
-        setAllDevices((prevState) => {
-          if (!isDuplicateDevice(prevState, device)) {
-            return [...prevState, device];
-          }
-          return prevState;
-        });
-      }
-    });
-  };
+    cleanup();
 
-  const scanForClassicDevices = async () => {
-    try {
-      const devices = await BluetoothClassic.startDiscovery();
-      setAllDevices((prevState) => {
-        const newDevices = devices.filter(device => !isDuplicateDevice(prevState, device));
-        return [...prevState, ...newDevices];
-      });
-    } catch (error) {
-      console.log('Classic Scan Error:', error);
-    }
-  };
-
-  const connectToDevice = async (device: BLEDevice) => {
-    try {
-      const deviceConnection = await bleManager.connectToDevice(device.id);
-      setConnectedDevice(deviceConnection);
-      await deviceConnection.discoverAllServicesAndCharacteristics();
+    // Cleanup on unmount
+    return () => {
       bleManager.stopDeviceScan();
-    } catch (e) {
-      console.log("FAILED TO CONNECT", e);
-    }
-  };
+    };
+  }, []);
 
-  const disconnectFromDevice = () => {
-    if (connectedDevice) {
-      bleManager.cancelDeviceConnection(connectedDevice.id);
-      setConnectedDevice(null);
-    }
-  };
-
-  return {
-    scanForPeripherals,
-    requestPermissions,
-    scanForClassicDevices,
-    connectToDevice,
-    allDevices,
-    connectedDevice,
-    disconnectFromDevice,
-  };
+  return { allDevices };
 }
 
 export default useBLE;

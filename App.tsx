@@ -2,11 +2,11 @@ import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 
-import SelectionPage from "./components/SelectionPage";
-import Admin from "./components/Admin";
-import User from "./components/User";
+import SelectionPage from "./app/components/SelectionPage";
+import Admin from "./app/components/Admin";
+import User from "./app/components/User";
 
-import "../global.css";
+import "./global.css";
 
 const Stack = createStackNavigator();
 

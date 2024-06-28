@@ -1,15 +1,49 @@
+import React, { useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
-import React from "react";
-import {
-  View,
-  Text,
-  Button,
-  SafeAreaView,
-  StyleSheet,
-  Pressable,
-} from "react-native";
+import { Text, SafeAreaView, StyleSheet, Pressable } from "react-native";
+
+import usePermissions from "../../hooks/usePermissions";
 
 const SelectionPage = ({ navigation }: { navigation: any }) => {
+  const {
+    bluetoothGranted,
+    locationGranted,
+    locationActivated,
+    bluetoothActivated,
+    checkBluetooth,
+    checkLocation,
+  } = usePermissions();
+
+  useEffect(() => {
+    checkBluetooth().then(() => checkLocation());
+  }, [bluetoothGranted, locationGranted]);
+
+  if (!bluetoothGranted || !locationGranted)
+    return (
+      <SafeAreaView style={styles.container}>
+        <LinearGradient
+          colors={["#2A2D32", "#131313FE"]}
+          style={styles.gradient}
+        />
+        <Text style={styles.title}>
+          Grant bluetooth and location permissions first to use this app.
+        </Text>
+      </SafeAreaView>
+    );
+
+  if (!bluetoothActivated || !locationActivated)
+    return (
+      <SafeAreaView style={styles.container}>
+        <LinearGradient
+          colors={["#2A2D32", "#131313FE"]}
+          style={styles.gradient}
+        />
+        <Text style={styles.title}>
+          Enable bluetooth and location service first to use this app.
+        </Text>
+      </SafeAreaView>
+    );
+
   return (
     <SafeAreaView style={styles.container}>
       <LinearGradient
