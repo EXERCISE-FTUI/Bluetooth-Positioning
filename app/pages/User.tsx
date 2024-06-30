@@ -1,7 +1,5 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Text, View, Dimensions, StyleSheet } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { LinearGradient } from "expo-linear-gradient";
 
 import MapBoxGL from "@rnmapbox/maps";
 
@@ -27,19 +25,12 @@ const User = () => {
   }, [scannedDevices]);
 
   return (
-    <SafeAreaView>
-      <LinearGradient
-        colors={["#2A2D32", "#131313FE"]}
-        style={styles.gradient}
-      />
-
-      <Text style={styles.title}>Floor: {floor}</Text>
-      <Text style={styles.subHeading}>Your Position: </Text>
-
+    <View>
       <View style={styles.container}>
+        <Text style={styles.title}>Floor: {floor}</Text>
         <MapBoxGL.MapView style={styles.map} styleURL={mapStyle}>
           <MapBoxGL.Camera
-            zoomLevel={15}
+            zoomLevel={18}
             centerCoordinate={[location.longitude, location.latitude]}
           />
           <MapBoxGL.PointAnnotation
@@ -50,20 +41,11 @@ const User = () => {
           </MapBoxGL.PointAnnotation>
         </MapBoxGL.MapView>
       </View>
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  gradient: {
-    display: "flex",
-    flex: 1,
-    position: "absolute",
-    left: 0,
-    right: 0,
-    top: 0,
-    height: 800,
-  },
   title: {
     fontSize: 40,
     fontWeight: "bold", // font-bold
@@ -72,26 +54,11 @@ const styles = StyleSheet.create({
     marginBottom: 16, // mb-4
     marginTop: 16,
   },
-  subHeading: {
-    fontSize: 32,
-    fontWeight: "bold",
-    textAlign: "center",
-    marginBottom: 16,
-    color: "#FFFFFF",
-  },
-  textLocation: {
-    fontSize: 16,
-    fontWeight: "bold", // font-bold
-    textAlign: "center",
-    color: "#FFFFFF",
-    marginBottom: 16, // mb-4
-  },
   container: {
     padding: 0,
     backgroundColor: "#38b6ff",
-    margin: 10,
-    width: Dimensions.get("window").width - 20,
-    height: (Dimensions.get("window").width - 20) * (46 / 40.67),
+    width: "100%",
+    height: "100%",
     position: "relative",
   },
   map: {

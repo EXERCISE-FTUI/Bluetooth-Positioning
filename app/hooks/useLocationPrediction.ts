@@ -26,8 +26,10 @@ function useLocationPrediction(devices: BLEDevice[]) {
       accuracy: 6,
     });
     if (
-      Math.abs(position.coords.latitude - location.latitude) < 0.0001 &&
-      Math.abs(position.coords.longitude - location.longitude) < 0.0001
+      (Math.abs(position.coords.latitude - location.latitude) < 0.0001 &&
+        Math.abs(position.coords.longitude - location.longitude) < 0.0001) ||
+      location.latitude === 0 ||
+      location.longitude === 0
     ) {
       const newLocation = {
         latitude: position.coords.latitude,

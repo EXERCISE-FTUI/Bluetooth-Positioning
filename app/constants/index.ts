@@ -16,4 +16,4 @@ export const MAP_STYLES = [
   "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
 ];
 export const ACCESS_TOKEN =
-  "pk.eyJ1Ijoia2FtYWwtbWFrYXJpbSIsImEiOiJjbHh5dTZoZncwNGhzMmtxN2JoemRoZTA0In0.VpkrDahr2iDyB4yHr5B-RA";
+  "pk.eyJ1Ijoia2FtYWwtbWFrYXJpbSIsImEiOiJjbHh6Y2lqeTMwOXBzMmtzMmg4NXd1NW5tIn0.E_YOxY3etgK6KX-cOfZpsw";

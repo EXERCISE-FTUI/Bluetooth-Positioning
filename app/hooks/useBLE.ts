@@ -10,7 +10,6 @@ import {
 import { DEVICE_NAMES, DEVICE_TIMEOUT, SCAN_INTERVAL } from "../constants";
 import { BLEDevice } from "../types";
 
-import usePermissions from "./usePermissions";
 
 function useBLE() {
   const manager = useMemo(() => new BleManager(), []);
