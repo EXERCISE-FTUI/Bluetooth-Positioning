@@ -23,7 +23,7 @@ const SelectionPage = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     checkBluetooth();
     checkLocation();
-  }, []);
+  }, [bluetoothActivated, locationActivated]);
 
   if (!bluetoothGranted || !locationGranted) {
     return (
