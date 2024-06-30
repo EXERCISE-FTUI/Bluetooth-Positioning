@@ -1,73 +1,30 @@
-import React, { useState, useEffect } from "react";
-import { Text, View, Dimensions, Image, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { Text, View, Dimensions, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import MapBoxGL from "@rnmapbox/maps";
 import { LinearGradient } from "expo-linear-gradient";
-import * as Location from "expo-location";
 
-import { leveledDeviceNames as deviceNames } from "../../constants";
-import useBLE from "../../hooks/useBLE";
+import MapBoxGL from "@rnmapbox/maps";
 
-MapBoxGL.setAccessToken(
-  "pk.eyJ1Ijoia2FtYWwtbWFrYXJpbSIsImEiOiJjbHh5dTZoZncwNGhzMmtxN2JoemRoZTA0In0.VpkrDahr2iDyB4yHr5B-RA"
-);
+import { ACCESS_TOKEN } from "../constants";
+
+import useBLE from "../hooks/useBLE";
+import useLocationPrediction from "../hooks/useLocationPrediction";
+
+MapBoxGL.setAccessToken(ACCESS_TOKEN);
 MapBoxGL.setTelemetryEnabled(false);
-// MapBoxGL.setWellKnownTileServer("mapbox");
 
 const User = () => {
-  const mapStyles = [
-    "mapbox://styles/kamal-makarim/clxyu9pw3002901qp6w1fcqfp",
-    "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-    "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-    "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-  ];
-
-  const { allDevices } = useBLE();
-  const [floor, setFloor] = useState(0);
-  const [mapStyle, setMapStyle] = useState(mapStyles[0]);
-
-  const floorPrediction = () => {
-    var rssiTotal: number[] = new Array(deviceNames.length).fill(0);
-    for (let i = 0; i < allDevices.length; i++) {
-      for (let j = 0; j < deviceNames.length; j++) {
-        if (
-          allDevices[i].name === deviceNames[j][0] ||
-          allDevices[i].name === deviceNames[j][1]
-        )
-          rssiTotal[j] -= 1 / Number(allDevices[i].rssi);
-      }
-    }
-    setFloor(rssiTotal.indexOf(Math.max(...rssiTotal)) + 1);
-    setMapStyle(mapStyles[floor - 1]);
-  };
-
-  const [location, setLocation] = useState({ latitude: 0, longitude: 0 });
-
-  const getLocation = async () => {
-    await Location.watchPositionAsync(
-      {
-        accuracy: Location.Accuracy.Highest,
-        timeInterval: 3000,
-        distanceInterval: 0,
-      },
-      (position) => {
-        const newLocation = {
-          latitude: position.coords.latitude,
-          longitude: position.coords.longitude,
-        };
-
-        setLocation(newLocation);
-      }
-    );
-  };
+  const { scannedDevices } = useBLE();
+  const { floor, mapStyle, calculateFloor, getLocation, location } =
+    useLocationPrediction(scannedDevices);
 
   useEffect(() => {
     getLocation();
   }, [location]);
 
   useEffect(() => {
-    floorPrediction();
-  }, [allDevices]);
+    calculateFloor();
+  }, [scannedDevices]);
 
   return (
     <SafeAreaView>
@@ -75,8 +32,10 @@ const User = () => {
         colors={["#2A2D32", "#131313FE"]}
         style={styles.gradient}
       />
+
       <Text style={styles.title}>Floor: {floor}</Text>
       <Text style={styles.subHeading}>Your Position: </Text>
+
       <View style={styles.container}>
         <MapBoxGL.MapView style={styles.map} styleURL={mapStyle}>
           <MapBoxGL.Camera

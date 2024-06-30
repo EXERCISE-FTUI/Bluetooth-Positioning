@@ -1,16 +1,25 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import {
+  StackNavigationOptions,
+  createStackNavigator,
+} from "@react-navigation/stack";
 
-import SelectionPage from "./app/components/SelectionPage";
-import Admin from "./app/components/Admin";
-import User from "./app/components/User";
+import SelectionPage from "./app/pages/SelectionPage";
+import Admin from "./app/pages/Admin";
+import User from "./app/pages/User";
 
 import "./global.css";
 
 const Stack = createStackNavigator();
 
 const App = () => {
+  const darkHeaderOptions: StackNavigationOptions = {
+    headerStyle: { backgroundColor: "#2A2D32" },
+    headerTitleStyle: { color: "#FFFFFF" },
+    headerTintColor: "#FFFFFF",
+  };
+
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName="SelectRole">
@@ -22,20 +31,12 @@ const App = () => {
         <Stack.Screen
           name="Admin"
           component={Admin}
-          options={{
-            headerStyle: { backgroundColor: "#2A2D32" },
-            headerTitleStyle: { color: "#FFFFFF" },
-            headerTintColor: "#FFFFFF",
-          }}
+          options={darkHeaderOptions}
         />
         <Stack.Screen
           name="User"
           component={User}
-          options={{
-            headerStyle: { backgroundColor: "#2A2D32" },
-            headerTitleStyle: { color: "#FFFFFF" },
-            headerTintColor: "#FFFFFF",
-          }}
+          options={darkHeaderOptions}
         />
       </Stack.Navigator>
     </NavigationContainer>
