@@ -3,7 +3,7 @@ export const LEVELED_DEVICE_NAMES = [
   ["1A", "1B"],
   ["2A", "2B"],
   ["3A", "3B"],
-  ["4A", "4A"],
+  ["4A", "4B"],
 ];
 
 export const SCAN_INTERVAL = 5000; // Cleanup interval in milliseconds

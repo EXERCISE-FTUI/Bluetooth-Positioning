@@ -75,7 +75,7 @@ void setup()
 {
   Serial.begin(115200);
 
-  BLEDevice::init("A");
+  BLEDevice::init("A");   // Use Your Desired Beacon Name (1A, 1B, 2A, 2B, etc)
   BLEServer *pServer = BLEDevice::createServer();
   pServer->setCallbacks(new MyServerCallbacks());
 
