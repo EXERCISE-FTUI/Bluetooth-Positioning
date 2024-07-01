@@ -13,3 +13,6 @@ Beacon yang menggunakan mikrokontroler ESP32 dan berperan sebagai pemancar sinya
 ### Software
 
 Aplikasi yang berperan sebagai perantara antara perangkat pengguna dengan beacon-beacon di tiap lantai pada bangunan. Aplikasi akan menerima data kekuatan sinyal perangkat terhadap beacon tertentu atau RSSI (Received Signal Strength Indicator). Data ini digunakan untuk mengkalkulasi dan menampilkan posisi level/lantai dari perangkat dengan sesuai. Aplikasi ini juga berfungsi untuk menampilkan peta lantai gedung yang sesuai, serta menunjukkan titik posisi spesifik dari perangkat. Hal ini dilakukan dengan memanfaatkan fitur GPS pada perangkat pengguna.
+
+## User Guide:
+Link User Guide : https://docs.google.com/document/d/1xqWW9Mhz8GbiZplE9uc57TbJ_lottzag5fjhEP9edYE/edit?usp=sharing
