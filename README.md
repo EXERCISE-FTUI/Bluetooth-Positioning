@@ -15,8 +15,8 @@ Beacon yang menggunakan mikrokontroler ESP32 dan berperan sebagai pemancar sinya
 Aplikasi yang berperan sebagai perantara antara perangkat pengguna dengan beacon-beacon di tiap lantai pada bangunan. Aplikasi akan menerima data kekuatan sinyal perangkat terhadap beacon tertentu atau RSSI (Received Signal Strength Indicator). Data ini digunakan untuk mengkalkulasi dan menampilkan posisi level/lantai dari perangkat dengan sesuai. Aplikasi ini juga berfungsi untuk menampilkan peta lantai gedung yang sesuai, serta menunjukkan titik posisi spesifik dari perangkat. Hal ini dilakukan dengan memanfaatkan fitur GPS pada perangkat pengguna.
 
 ## User Guide:
-Link User Guide : https://docs.google.com/document/d/1xqWW9Mhz8GbiZplE9uc57TbJ_lottzag5fjhEP9edYE/edit?usp=sharing
+User Guide dapat diakses pada link berikut : https://docs.google.com/document/d/1xqWW9Mhz8GbiZplE9uc57TbJ_lottzag5fjhEP9edYE/edit?usp=sharing
 
 ## Technical Guide
 - Upload kode ke dalam Mikrokontroller dapat menggunakan Arduino IDE atau PlatformIO
-- Cara mengganti nama beacon dapat dilakukan pada code .ino pada line 77 dengan contoh pada kode : **BLEDevice::init("A");**
+- Cara mengganti nama beacon dapat dilakukan pada code .ino pada line 77 dengan contoh pada kode : _BLEDevice::init("A");_
