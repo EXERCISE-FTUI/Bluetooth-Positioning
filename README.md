@@ -21,3 +21,6 @@ User Guide dapat diakses pada link berikut : https://docs.google.com/document/d/
 - Upload kode ke dalam Mikrokontroller dapat menggunakan Arduino IDE atau PlatformIO
 - Cara mengganti nama beacon dapat dilakukan pada Hardware/ForArduinoIDE/main.ino pada line 77 dengan contoh pada kode : _BLEDevice::init("A");_
 - Selain cara diatas, cara lain untuk mengganti nama beacon dapat menggunakan BLE Scanner dengan mengirimkan data text kedalam beacon
+
+## Installation
+Instalasi aplikasi dapat dilakukan pada link berikut: https://drive.google.com/file/d/1SL-4Wa2gC9WBS4Vv1KguaIZYcbOZ_wUw/view?usp=sharing
