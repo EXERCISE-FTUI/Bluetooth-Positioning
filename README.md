@@ -16,3 +16,7 @@ Aplikasi yang berperan sebagai perantara antara perangkat pengguna dengan beacon
 
 ## User Guide:
 Link User Guide : https://docs.google.com/document/d/1xqWW9Mhz8GbiZplE9uc57TbJ_lottzag5fjhEP9edYE/edit?usp=sharing
+
+## Technical Guide
+- Upload kode ke dalam Mikrokontroller dapat menggunakan Arduino IDE atau PlatformIO
+- Cara mengganti nama beacon dapat dilakukan pada code .ino pada line 77 dengan contoh pada kode : **BLEDevice::init("A");**
