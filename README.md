@@ -8,7 +8,7 @@ Proyek ini bertujuan untuk melacak keberadaan sebuah device dalam gedung berdasa
 
 ### Hardware
 
-Beacon yang menggunakan mikrokontroler ESP32 dan berperan sebagai pemancar sinyal bluetooth. Beacon mencakup mikrokontroler serta adaptor 5V sebagai sumber daya. Beacon juga akan terpasang pada circuit board untuk memastikan peletakkan komponen yang rapi. Adapun modul-modul beacon ini diletakkan di beberapa titik pada bangunan untuk memastikan kalkulasi posisi perangkat yang lebih akurat. 
+Beacon yang menggunakan mikrokontroler ESP32 dan berperan sebagai pemancar sinyal bluetooth. Beacon mencakup mikrokontroler serta adaptor 5V sebagai sumber daya. Adapun modul-modul beacon ini diletakkan di beberapa titik pada bangunan untuk memastikan kalkulasi posisi perangkat yang lebih akurat. 
 
 ### Software
 
