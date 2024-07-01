@@ -12,10 +12,9 @@ import { MAP_STYLES, LEVELED_DEVICE_NAMES as deviceNames } from "../constants";
  * It calculates the floor based on the received RSSI (Received Signal Strength Indicator) values from the devices.
  * The floor prediction is determined by finding the device with the highest RSSI value and mapping it to a specific floor.
  *
- * @param devices - An array of BLE devices.
  * @returns An object containing floor prediction related state and functions.
  */
-function useLocationPrediction(devices: BLEDevice[]) {
+function useLocationPrediction() {
   const [mapStyle, setMapStyle] = useState(MAP_STYLES[0]);
   const [floor, setFloor] = useState(0);
 
@@ -39,7 +38,7 @@ function useLocationPrediction(devices: BLEDevice[]) {
     }
   };
 
-  const calculateFloor = () => {
+  const calculateFloor = (devices: BLEDevice[]) => {
     let rssiTotal: number[] = new Array(deviceNames.length).fill(0);
 
     for (let i = 0; i < devices.length; i++) {

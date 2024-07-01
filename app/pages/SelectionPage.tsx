@@ -4,6 +4,7 @@ import { Text, SafeAreaView, StyleSheet } from "react-native";
 import usePermissions from "../hooks/usePermissions";
 import ContainerBackground from "../components/ContainerBackground";
 import Button from "../components/Button";
+import useLocationPrediction from "../hooks/useLocationPrediction";
 
 const SelectionPage = ({ navigation }: { navigation: any }) => {
   const {
@@ -23,7 +24,12 @@ const SelectionPage = ({ navigation }: { navigation: any }) => {
   useEffect(() => {
     checkBluetooth();
     checkLocation();
-  }, []);
+  }, [
+    bluetoothActivated,
+    locationActivated,
+    bluetoothGranted,
+    locationGranted,
+  ]);
 
   if (!bluetoothGranted || !locationGranted) {
     return (

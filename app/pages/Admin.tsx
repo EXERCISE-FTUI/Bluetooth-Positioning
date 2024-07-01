@@ -12,10 +12,10 @@ import useLocationPrediction from "../hooks/useLocationPrediction";
 
 const Admin = () => {
   const { scannedDevices } = useBLE();
-  const { calculateFloor, floor } = useLocationPrediction(scannedDevices);
+  const { calculateFloor, floor } = useLocationPrediction();
 
   useEffect(() => {
-    calculateFloor();
+    calculateFloor(scannedDevices);
   }, [scannedDevices]);
 
   return (

@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
-import { Text, View, Dimensions, StyleSheet } from "react-native";
+import { useEffect } from "react";
+import { Text, View, StyleSheet } from "react-native";
 
-import MapBoxGL from "@rnmapbox/maps";
+import MapBoxGL, { UserTrackingMode } from "@rnmapbox/maps";
 
 import { ACCESS_TOKEN } from "../constants";
+import { LinearGradient } from "expo-linear-gradient";
 
 import useBLE from "../hooks/useBLE";
 import useLocationPrediction from "../hooks/useLocationPrediction";
@@ -14,31 +15,47 @@ MapBoxGL.setTelemetryEnabled(false);
 const User = () => {
   const { scannedDevices } = useBLE();
   const { floor, mapStyle, calculateFloor, getLocation, location } =
-    useLocationPrediction(scannedDevices);
+    useLocationPrediction();
 
   useEffect(() => {
     getLocation();
   }, [location]);
 
   useEffect(() => {
-    calculateFloor();
+    calculateFloor(scannedDevices);
   }, [scannedDevices]);
 
   return (
     <View>
       <View style={styles.container}>
-        <Text style={styles.title}>Floor: {floor}</Text>
-        <MapBoxGL.MapView style={styles.map} styleURL={mapStyle}>
+        <LinearGradient
+          colors={["#2A2D32", "#131313FE"]}
+          style={styles.floorContainer}
+        >
+          <Text style={styles.title}>Floor: {floor}</Text>
+        </LinearGradient>
+
+        <MapBoxGL.MapView
+          style={styles.map}
+          styleURL={mapStyle}
+          logoEnabled={false}
+          compassEnabled={true}
+          compassPosition={{ bottom: 12, right: 12 }}
+          attributionEnabled={false}
+          scaleBarEnabled={false}
+        >
           <MapBoxGL.Camera
             zoomLevel={18}
-            centerCoordinate={[location.longitude, location.latitude]}
+            followZoomLevel={18}
+            followUserLocation={true}
+            followUserMode={UserTrackingMode.Follow}
+            animationMode="flyTo"
           />
-          <MapBoxGL.PointAnnotation
-            id="pointAnnotation"
-            coordinate={[location.longitude, location.latitude]}
-          >
-            <View style={styles.marker} />
-          </MapBoxGL.PointAnnotation>
+          <MapBoxGL.UserLocation
+            androidRenderMode="gps"
+            showsUserHeadingIndicator={true}
+            requestsAlwaysUse={true}
+          />
         </MapBoxGL.MapView>
       </View>
     </View>
@@ -46,17 +63,24 @@ const User = () => {
 };
 
 const styles = StyleSheet.create({
+  floorContainer: {
+    position: "absolute",
+    bottom: 12,
+    left: 12,
+    zIndex: 10,
+    width: "auto",
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 16,
+  },
   title: {
-    fontSize: 40,
-    fontWeight: "bold", // font-bold
+    fontSize: 20,
+    fontWeight: "bold",
     textAlign: "center",
     color: "#FFFFFF",
-    marginBottom: 16, // mb-4
-    marginTop: 16,
   },
   container: {
     padding: 0,
-    backgroundColor: "#38b6ff",
     width: "100%",
     height: "100%",
     position: "relative",
