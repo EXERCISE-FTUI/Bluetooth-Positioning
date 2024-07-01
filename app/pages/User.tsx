@@ -15,14 +15,14 @@ MapBoxGL.setTelemetryEnabled(false);
 const User = () => {
   const { scannedDevices } = useBLE();
   const { floor, mapStyle, calculateFloor, getLocation, location } =
-    useLocationPrediction(scannedDevices);
+    useLocationPrediction();
 
   useEffect(() => {
     getLocation();
   }, [location]);
 
   useEffect(() => {
-    calculateFloor();
+    calculateFloor(scannedDevices);
   }, [scannedDevices]);
 
   return (
