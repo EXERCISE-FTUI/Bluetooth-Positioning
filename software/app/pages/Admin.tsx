@@ -1,9 +1,8 @@
 import { useEffect } from "react";
-import { Text, FlatList, StyleSheet } from "react-native";
+import { Text, FlatList, StyleSheet, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { LinearGradient } from "expo-linear-gradient";
-import Animated, { FadeIn, FadeOut } from "react-native-reanimated";
 
 import Device from "../components/BLEDevice";
 
@@ -26,7 +25,7 @@ const Admin = () => {
       />
 
       {scannedDevices.length > 0 ? (
-        <Animated.View entering={FadeIn} exiting={FadeOut}>
+        <View>
           <Text style={styles.title}>Floor prediction: {floor}</Text>
 
           <FlatList
@@ -34,15 +33,11 @@ const Admin = () => {
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => <Device item={item} />}
           />
-        </Animated.View>
+        </View>
       ) : (
-        <Animated.View
-          style={styles.noDeviceContainer}
-          entering={FadeIn}
-          exiting={FadeOut}
-        >
+        <View style={styles.noDeviceContainer}>
           <Text style={styles.title}>No Device Scanned.</Text>
-        </Animated.View>
+        </View>
       )}
     </SafeAreaView>
   );
