@@ -2,7 +2,11 @@ import { PermissionStatus } from "expo-location";
 import { useEffect, useState } from "react";
 import { Alert, PermissionsAndroid, Platform } from "react-native";
 import { BleManager, State } from "react-native-ble-plx";
-import { PERMISSIONS, openSettings } from "react-native-permissions";
+import {
+  PERMISSIONS,
+  checkMultiple,
+  openSettings,
+} from "react-native-permissions";
 import Geolocation from "react-native-geolocation-service";
 
 function usePermissions() {
@@ -16,7 +20,7 @@ function usePermissions() {
   const requestBluetoothAndLocation = async () => {
     if (bluetoothGranted && locationGranted) return;
 
-    if (Platform.OS == "android") {
+    if (Platform.OS === "android") {
       const status = await PermissionsAndroid.requestMultiple([
         PERMISSIONS.ANDROID.BLUETOOTH_SCAN,
         PERMISSIONS.ANDROID.BLUETOOTH_CONNECT,
@@ -40,43 +44,22 @@ function usePermissions() {
       else setLocationGranted(false);
 
       return bluetoothGranted && locationGranted;
-    }
-  };
+    } else if (Platform.OS === "ios") {
+      const status = await checkMultiple([
+        PERMISSIONS.IOS.BLUETOOTH,
+        PERMISSIONS.IOS.LOCATION_ALWAYS,
+      ]);
 
-  const requestBluetooth = async () => {
-    if (Platform.OS == "android") {
-      let state = await PermissionsAndroid.request(
-        PERMISSIONS.ANDROID.BLUETOOTH_SCAN
-      );
+      if (status["ios.permission.BLUETOOTH"] === PermissionStatus.GRANTED)
+        setBluetoothGranted(true);
+      else setBluetoothGranted(false);
 
-      if (state === PermissionStatus.GRANTED) {
-        state = await PermissionsAndroid.request(
-          PERMISSIONS.ANDROID.BLUETOOTH_CONNECT
-        );
-
-        if (state === PermissionStatus.GRANTED) setBluetoothGranted(true);
-      } else {
-        setBluetoothGranted(false);
-      }
-
-      return bluetoothGranted;
-    }
-  };
-
-  const requestLocation = async () => {
-    if (Platform.OS == "android") {
-      let state = await PermissionsAndroid.request(
-        PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION
-      );
-
-      if (state === PermissionStatus.GRANTED) {
+      if (status["ios.permission.LOCATION_ALWAYS"] === PermissionStatus.GRANTED)
         setLocationGranted(true);
-      } else {
-        setLocationGranted(false);
-      }
-    }
+      else setLocationGranted(false);
 
-    return locationGranted;
+      return bluetoothGranted && locationGranted;
+    }
   };
 
   const checkBluetooth = async () => {
@@ -119,8 +102,6 @@ function usePermissions() {
     checkLocation,
     bluetoothGranted,
     locationGranted,
-    requestBluetooth,
-    requestLocation,
     requestBluetoothAndLocation,
   };
 }
