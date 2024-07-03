@@ -1,4 +1,4 @@
-package com.kamalmakarim.BluetoothPositioning
+package com.BluetoothPositioning
 
 import android.os.Build
 import android.os.Bundle
