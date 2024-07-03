@@ -55,7 +55,9 @@ Setelah instalasi selesai, buka website [MapBox](https://account.mapbox.com/) da
 
 Copy Paste "Default Public Token" pada Map Box dan masukkan ke dalam Access Token pada file [constants](/software/app/constants/).
 
-2. Buat Map Styles
+2.
+
+3.  Buat Map Styles
 
 Buat Map Styles sesuai dengan denah bangunan yang Anda ingin buat dan masukkan path-path dari Map Styles tersebut ke dalam file [constants](/software/app/constants/).
 
