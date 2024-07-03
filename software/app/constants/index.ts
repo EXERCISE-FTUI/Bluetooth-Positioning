@@ -9,11 +9,5 @@ export const LEVELED_DEVICE_NAMES = [
 export const SCAN_INTERVAL = 5000; // Cleanup interval in milliseconds
 export const DEVICE_TIMEOUT = 500; // Device timeout in milliseconds
 
-export const MAP_STYLES = [
-  "mapbox://styles/kamal-makarim/clxyu9pw3002901qp6w1fcqfp",
-  "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-  "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-  "mapbox://styles/kamal-makarim/clxywcl3g002e01qp83b87szt",
-];
-export const ACCESS_TOKEN =
-  "pk.eyJ1Ijoia2FtYWwtbWFrYXJpbSIsImEiOiJjbHh6Y2lqeTMwOXBzMmtzMmg4NXd1NW5tIn0.E_YOxY3etgK6KX-cOfZpsw";
+export const MAP_STYLES = []; // MASUKKAN LIST MAP STYLE MAP BOX ANDA
+export const ACCESS_TOKEN = ""; // MASUKKAN ACCESS TOKEN MAP BOX ANDA

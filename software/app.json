@@ -4,10 +4,10 @@
     "slug": "Bluetooth-Positioning",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./app/assets/icon.png",
+    "icon": "./app/assets/ICON_ANDA",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./app/assets/splash.png",
+      "image": "./app/assets/SPLASH_ANDA",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -17,7 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./app/assets/adaptive-icon.png",
+        "foregroundImage": "./app/assets/ICON_ANDA",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
@@ -39,7 +39,7 @@
     ],
     "extra": {
       "eas": {
-        "projectId": "49822e95-7487-4db6-9bff-4847641d6ff6"
+        "projectId": "ID PROYEK EAS ANDA"
       }
     }
   }
