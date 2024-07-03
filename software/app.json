@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.kamalmakarim.BluetoothPositioning"
+      "bundleIdentifier": "com.BluetoothPositioning"
     },
     "android": {
       "adaptiveIcon": {
@@ -28,7 +28,7 @@
         "android.permission.ACCESS_FINE_LOCATION",
         "android.permission.ACCESS_COARSE_LOCATION"
       ],
-      "package": "com.kamalmakarim.BluetoothPositioning"
+      "package": "com.BluetoothPositioning"
     },
     "web": {
       "favicon": "./app/assets/favicon.png",
