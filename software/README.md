@@ -51,11 +51,13 @@ npm install
 
 Setelah instalasi selesai, buka website [MapBox](https://account.mapbox.com/) dan buat buat akun (jika belum ada). Kemudian login ke akun Anda.
 
-1. Map Box Access Token
+1. Map Box Token
 
 Copy Paste "Default Public Token" pada Map Box dan masukkan ke dalam Access Token pada file [constants](/software/app/constants/).
 
-2.
+2. Access Token
+
+Pada laman MapBox, tekan button "Create a Token" berada paling atas. Lalu kemudian masukkan nama token dan centang box "DOWNLOADS:READ". Kemudian copy token tersebut dan paste pada file [build.gradle](/software/android/build.gradle) pada variabel "password".
 
 3.  Buat Map Styles
 
@@ -92,3 +94,15 @@ eas build --profile production --platform [android|ios]
 ```
 
 ! PENTING: Pembuatan Build untuk platform Android tidak dikenakan biaya. Berbeda dengan IOS yang harus memiliki lisensi Apple Developer yang dapat dibayar dengan harga 99 USD.
+
+## Pengembangan ke Depan
+
+## Pengembangan ke Depan
+
+Berikut adalah beberapa hal yang dapat dikembangkan lebih lanjut dalam aplikasi ini:
+
+1. Beacon Dinamis: Anda dapat membuat pengaturan kustom terhadap beacon melalui aplikasi ini seperti perubahan nama, perizinan, dll.
+
+2. Peningkatan Fitur Pemetaan: Anda dapat memperluas kemampuan pemetaan dengan menambahkan fitur seperti penandaan lokasi, rute navigasi, Wi-Fi Finding, atau tampilan peta 3D.
+
+3. Kalkulasi Posisi: Anda dapat menggunakan metode lain untuk melakukan kalkulasi posisi pengguna selain menggunakan GPS.
